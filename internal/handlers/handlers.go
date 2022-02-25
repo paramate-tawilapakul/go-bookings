@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"bookings/pkg/config"
-	"bookings/pkg/models"
-	"bookings/pkg/render"
+	"bookings/internal/config"
+	"bookings/internal/models"
+	"bookings/internal/render"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -73,6 +74,26 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	end := r.Form.Get("end")
 	log.Println()
 	w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", start, end)))
+}
+
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Available!",
+	}
+
+	out, err := json.MarshalIndent(resp, "", "     ")
+	if err != nil {
+		log.Println(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 // renders the search availibility page
