@@ -23,7 +23,7 @@ To build and run the application, from the root level of the project,
 execute this command:
 
 ```
-go build -o bookings ./cmd/web/ && ./bookings \
+go build -o bookings ./main/ && ./bookings \
 -dbname=bookings \
 -dbuser=tcs
 ```
